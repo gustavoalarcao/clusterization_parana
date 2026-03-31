@@ -1,0 +1,12 @@
+[theme]
+primaryColor="#1032f3"
+
+backgroundColor="#e1dede"
+secondaryBackgroundColor="#c7bfbfff"
+codeBackgroundColor="#c7bfbfff"
+
+textColor="#001039ff"
+borderColor="#001039ff"
+
+baseFontWeight=500
+headingFontWeights=600 
