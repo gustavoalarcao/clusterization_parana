@@ -18,10 +18,12 @@ import pandas as pd
 import numpy as np
 
 from core.coletando_dados import *
+from core.analise_primaria import *
 
 from utils.constantes import *
 from utils.plotly_template import *
 from utils.auxiliar_plotagem import *
+from utils.mapa_parana import *
 
 
 
@@ -30,7 +32,7 @@ df = coletando_ocorrencias_de_desastres(arquivo_ocorrencia_desastres)
 
 df
 
-df.dtypes
+# df.dtypes
 
 df['Prejuízo Público'] = df['Prejuízo Público'].str.replace('R$', '')
 df['Prejuízo Público'] = df['Prejuízo Público'].str.replace('.', '')
@@ -50,6 +52,10 @@ norma = impacto_proporcional_a_populacao.sum()
 impacto_normalizado = impacto_proporcional_a_populacao / norma
 
 impacto_normalizado
+
+pr_geo_json = coletando_coordenadas_parana()
+mapa_parana = gerando_mapa_parana(pr_geo_json)
+mostrar_grafico(mapa_parana)
 
 
 
