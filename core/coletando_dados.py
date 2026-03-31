@@ -4,6 +4,11 @@ import numpy as np
 from utils.constantes import *
 
 def coletando_ocorrencias_de_desastres(filepath) -> pd.DataFrame:
-    df = pd.read_csv(filepath, sep=';')
+    df = pd.read_csv(
+        filepath, 
+        sep=';', 
+        thousands='.', 
+        decimal=','
+    )
     return df
 

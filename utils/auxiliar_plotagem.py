@@ -19,7 +19,6 @@ def baixar_grafico(
     plot.write_image(output_file, height=height, width=width)
     
 
-
 def mostrar_grafico(plot: go.Figure) -> None:
     st.plotly_chart(
         plot, 
