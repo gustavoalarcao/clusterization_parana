@@ -38,13 +38,16 @@ df['Prejuízo Público'] = df['Prejuízo Público'].str.replace('R$', '')
 df['Prejuízo Público'] = df['Prejuízo Público'].str.replace('.', '')
 df['Prejuízo Público'] = df['Prejuízo Público'].str.replace(',', '.')
 
+# -----------------
 
-df['Impacto Proporcional à População'] = df['População'] / df['Pessoas Afetadas']
+
+df['Impacto Proporcional à População'] = df['Pessoas Afetadas'] / df['População'] 
 
 impacto_proporcional_a_populacao = df.groupby('Município')['Impacto Proporcional à População'].sum()
 
 impacto_proporcional_a_populacao = impacto_proporcional_a_populacao.sort_values(ascending=False)
 
+# Removendo cidades com impacto mínimo
 impacto_proporcional_a_populacao = impacto_proporcional_a_populacao.replace([np.inf, -np.inf], np.nan).dropna()
 
 norma = impacto_proporcional_a_populacao.sum()
@@ -52,6 +55,15 @@ norma = impacto_proporcional_a_populacao.sum()
 impacto_normalizado = impacto_proporcional_a_populacao / norma
 
 impacto_normalizado
+
+
+top10_mais_impactadas = impacto_normalizado[:10]
+
+grafico_de_barras_impacto_proporcional = gerando_grafico_de_barras_impacto_proporcional(top10_mais_impactadas)
+mostrar_grafico(grafico_de_barras_impacto_proporcional)
+
+
+# --------------------------
 
 pr_geo_json = coletando_coordenadas_parana()
 mapa_parana = gerando_mapa_parana(pr_geo_json)
