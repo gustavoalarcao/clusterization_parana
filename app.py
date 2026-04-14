@@ -56,7 +56,6 @@ impacto_normalizado = impacto_proporcional_a_populacao / norma
 
 impacto_normalizado
 
-
 top10_mais_impactadas = impacto_normalizado[:10]
 
 grafico_de_barras_impacto_proporcional = gerando_grafico_de_barras_impacto_proporcional(top10_mais_impactadas)
