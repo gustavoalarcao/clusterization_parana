@@ -9,10 +9,10 @@ Acompanhamento:
 - Instale o Python (3.13+) no computador
 - Copie o link desta página
 - No terminal de um editor de código, execute:
-    - git clone link.git
-- Entre na pasta do projeto recém-criada:
+    - git clone LINK_DA_PAGINA.git
+- Entre na pasta do projeto recém-criada, no mesmo terminal:
     - cd NOME_DA_PASTA
-- Instalando as dependências
+- Instalando as dependências, no mesmo terminal:
     - Windows:
         - pip install -r requirements.txt
     - Linux:  
