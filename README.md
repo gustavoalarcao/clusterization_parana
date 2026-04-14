@@ -6,7 +6,7 @@
 
 Acompanhamento:
 - Instale o Git no computador
-- Instale o Python no computador
+- Instale o Python (3.13+) no computador
 - Copie o link desta página
 - No terminal de um editor de código, execute:
     - git clone link.git
