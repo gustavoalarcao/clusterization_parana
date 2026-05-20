@@ -3,7 +3,7 @@ Visualização das análises de dados via Streamlit.
 
 Este módulo provê uma interface para facilitar a visualização 
 de operações em DataFrames e gráficos durante o desenvolvimento. 
-A utilização do Streamlit permite uma prototipagem mais ágil e modular 
+A utilização do Streamlit permite uma prototipagem mais ágil 
 em comparação com ambientes de Notebook tradicionais.
 """
 
@@ -17,6 +17,7 @@ st.set_page_config(layout='wide')
 import pandas as pd
 import numpy as np
 
+
 from core.coletando_dados import *
 from core.analise_primaria import *
 
@@ -27,46 +28,32 @@ from utils.mapa_parana import *
 
 
 
+# Coleta inicial (2010 - 2024).
 
-df = coletando_ocorrencias_de_desastres(arquivo_ocorrencia_desastres)
+df_desastres = coletando_ocorrencias_de_desastres(arquivo_ocorrencia_desastres)
+# df_desastres
+# df_desastres.dtypes
 
-df
+df_desastres['Prejuízo Público'] = df_desastres['Prejuízo Público'].str.replace('R$', '')
+df_desastres['Prejuízo Público'] = df_desastres['Prejuízo Público'].str.replace('.', '')
+df_desastres['Prejuízo Público'] = df_desastres['Prejuízo Público'].str.replace(',', '.')
 
-# df.dtypes
+df_desastres['impacto proporcional a populacao'] = df_desastres['Pessoas Afetadas'] / df_desastres['População'] 
 
-df['Prejuízo Público'] = df['Prejuízo Público'].str.replace('R$', '')
-df['Prejuízo Público'] = df['Prejuízo Público'].str.replace('.', '')
-df['Prejuízo Público'] = df['Prejuízo Público'].str.replace(',', '.')
-
-# -----------------
-
-
-df['Impacto Proporcional à População'] = df['Pessoas Afetadas'] / df['População'] 
-
-impacto_proporcional_a_populacao = df.groupby('Município')['Impacto Proporcional à População'].sum()
-
+impacto_proporcional_a_populacao = df_desastres.groupby('Município')['impacto proporcional a populacao'].sum()
 impacto_proporcional_a_populacao = impacto_proporcional_a_populacao.sort_values(ascending=False)
-
-# Removendo cidades com impacto mínimo
+# Removendo cidades com impacto relativo mínimo.
 impacto_proporcional_a_populacao = impacto_proporcional_a_populacao.replace([np.inf, -np.inf], np.nan).dropna()
 
 norma = impacto_proporcional_a_populacao.sum()
-
 impacto_normalizado = impacto_proporcional_a_populacao / norma
-
 impacto_normalizado
 
-top10_mais_impactadas = impacto_normalizado[:10]
-
-grafico_de_barras_impacto_proporcional = gerando_grafico_de_barras_impacto_proporcional(top10_mais_impactadas)
+mais_impactadas = impacto_normalizado[impacto_normalizado > 0.01]
+grafico_de_barras_impacto_proporcional = gerando_grafico_de_barras_impacto_proporcional(mais_impactadas)
 mostrar_grafico(grafico_de_barras_impacto_proporcional)
 
 
-# --------------------------
-
-pr_geo_json = coletando_coordenadas_parana()
-mapa_parana = gerando_mapa_parana(pr_geo_json)
-mostrar_grafico(mapa_parana)
 
 
 
